@@ -21,7 +21,7 @@ public class MusicEvents {
     public static void onMusicSelected(SelectMusicEvent e)
     {
         SoundInstance currentSong = e.getPlayingMusic();
-        if (currentSong != null && !isSongPlaying) {
+        if (currentSong != null && currentSong.getSound() != null && !isSongPlaying) {
             String name = extractAndFormatSongName(currentSong.getSound().getPath().getPath());
             LocalPlayer pl = Minecraft.getInstance().player;
             if (pl != null) {
