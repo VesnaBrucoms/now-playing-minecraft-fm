@@ -2,6 +2,7 @@ package com.ladyvulcan.nowplayingminecraftfm;
 
 import org.slf4j.Logger;
 
+import com.ladyvulcan.nowplayingminecraftfm.config.ClientConfig;
 import com.mojang.logging.LogUtils;
 
 import net.minecraft.client.Minecraft;
@@ -35,7 +36,7 @@ public class MinecraftFMMod
         NeoForge.EVENT_BUS.register(this);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

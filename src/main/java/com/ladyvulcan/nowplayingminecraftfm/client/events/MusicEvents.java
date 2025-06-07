@@ -2,6 +2,8 @@ package com.ladyvulcan.nowplayingminecraftfm.client.events;
 
 import com.ladyvulcan.nowplayingminecraftfm.MinecraftFMMod;
 import com.ladyvulcan.nowplayingminecraftfm.client.gui.NowPlayingToast;
+import com.ladyvulcan.nowplayingminecraftfm.config.ClientConfig;
+import com.ladyvulcan.nowplayingminecraftfm.utils.TextUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -23,31 +25,20 @@ public class MusicEvents {
     {
         SoundInstance currentSong = e.getPlayingMusic();
         if (currentSong != null && currentSong.getSound() != null && !isSongPlaying) {
-            Component name = extractAndFormatSongName(currentSong.getSound().getPath().getPath());
+            Component name = TextUtils.extractAndFormatSongName(currentSong.getSound().getPath().getPath());
             LocalPlayer pl = Minecraft.getInstance().player;
             if (pl != null) {
                 MutableComponent title = Component.translatable("nowplayingminecraftfm.toast.title");
-                MutableComponent msg = title.append(": ").append(name);
-                pl.displayClientMessage(msg, true);
-                Minecraft.getInstance().getToasts().addToast(new NowPlayingToast(title, name));
+                if (ClientConfig.useSimpleMessage) {
+                    MutableComponent msg = title.append(": ").append(name);
+                    pl.displayClientMessage(msg, true);
+                } else {
+                    Minecraft.getInstance().getToasts().addToast(new NowPlayingToast(title, name));
+                }
             }
             isSongPlaying = true;
         } else if (currentSong == null && isSongPlaying) {
             isSongPlaying = false;
         }
-    }
-
-    private static Component extractAndFormatSongName(String filePath) {
-        int start = filePath.lastIndexOf("/") + 1;
-        int end = filePath.indexOf(".");
-
-        String name = filePath.substring(start, end);
-        return Component.literal(formatName(name));
-    }
-
-    private static String formatName(String name) {
-        name = name.replaceAll("_", " ");
-        name = name.substring(0, 1).toUpperCase() + name.substring(1);
-        return name;
     }
 }
