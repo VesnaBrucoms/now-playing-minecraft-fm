@@ -1,6 +1,7 @@
 package com.ladyvulcan.nowplayingminecraftfm.client.events;
 
 import com.ladyvulcan.nowplayingminecraftfm.MinecraftFMMod;
+import com.ladyvulcan.nowplayingminecraftfm.client.gui.NowPlayingToast;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -22,11 +23,13 @@ public class MusicEvents {
     {
         SoundInstance currentSong = e.getPlayingMusic();
         if (currentSong != null && currentSong.getSound() != null && !isSongPlaying) {
-            String name = extractAndFormatSongName(currentSong.getSound().getPath().getPath());
+            Component name = extractAndFormatSongName(currentSong.getSound().getPath().getPath());
             LocalPlayer pl = Minecraft.getInstance().player;
             if (pl != null) {
-                MutableComponent msg = Component.translatable("nowplayingminecraftfm.message").append(name);
+                MutableComponent title = Component.translatable("nowplayingminecraftfm.toast.title");
+                MutableComponent msg = title.append(": ").append(name);
                 pl.displayClientMessage(msg, true);
+                Minecraft.getInstance().getToasts().addToast(new NowPlayingToast(title, name));
             }
             isSongPlaying = true;
         } else if (currentSong == null && isSongPlaying) {
@@ -34,12 +37,12 @@ public class MusicEvents {
         }
     }
 
-    private static String extractAndFormatSongName(String filePath) {
+    private static Component extractAndFormatSongName(String filePath) {
         int start = filePath.lastIndexOf("/") + 1;
         int end = filePath.indexOf(".");
 
         String name = filePath.substring(start, end);
-        return formatName(name);
+        return Component.literal(formatName(name));
     }
 
     private static String formatName(String name) {
