@@ -26,6 +26,7 @@ public class MusicEvents {
         SoundInstance currentSong = e.getPlayingMusic();
         if (currentSong != null && currentSong.getSound() != null && !isSongPlaying) {
             Component name = TextUtils.extractAndFormatSongName(currentSong.getSound().getPath().getPath());
+            // get author name
             LocalPlayer pl = Minecraft.getInstance().player;
             if (pl != null) {
                 MutableComponent title = Component.translatable("nowplayingminecraftfm.toast.title");

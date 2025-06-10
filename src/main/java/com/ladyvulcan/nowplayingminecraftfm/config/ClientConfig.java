@@ -17,6 +17,10 @@ public class ClientConfig
     private static final BooleanValue USE_SIMPLE_MESSAGE = BUILDER
             .comment("Set to True to use a simple 'Now Playing...' message that displays above the action bar.")
             .define("useSimpleMessage", false);
+    
+    
+    // TODO: displayAuthorName = true
+    // TODO: add storing song to author mappings ["mice_on_venus:C418", "one_more_day:Lena Raine"]
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 

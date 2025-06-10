@@ -25,6 +25,8 @@ public class NowPlayingToast implements Toast {
         displayStack = new ItemStack(Items.MUSIC_DISC_13.asItem());
     }
 
+    // TODO: add override to pass in author name
+
     @Override
     public Toast.Visibility render(@Nonnull GuiGraphics guiGraphics, @Nonnull ToastComponent toastComponent, long timeSinceLastVisible) {
         guiGraphics.blitSprite(BACKGROUND_SPRITE, 0, 0, this.width(), this.height());
